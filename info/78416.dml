@@ -1,0 +1,115 @@
+package es16al_10_project;
+
+class FileSystem {
+  Integer fileSystemID;
+}
+
+class Manager {}
+
+class User {
+  String username;
+  String password;
+  String name;
+  String mask;
+}
+
+class RootUser extends User {}
+
+class File {
+  Integer fileID;
+  String name;
+  DateTime modDate;
+  String ownerPermissions;
+  String userPermissions;
+}
+
+class PlainFile extends File {
+  String content;
+}
+
+class Directory extends File {
+  String dirPath;
+}
+
+class Link extends PlainFile {}
+
+class App extends PlainFile {}
+
+relation DomainRootHasFileSystemApplication {
+  .pt.ist.fenixframework.DomainRoot playsRole root {
+    multiplicity 0..1;
+  }
+  FileSystem playsRole fileSystem {
+    multiplicity 0..1;
+  }
+}
+
+relation ManagerContainsFileSystem {
+  Manager playsRole manager;
+  FileSystem playsRole fileSystem {
+    multiplicity *;
+  }
+}
+
+relation ManagerContainsLoggedUser {
+  Manager playsRole manager;
+  User playsRole loggedUser {
+    multiplicity 0..1;
+  }
+}
+
+relation ManagerContainsWorkDir {
+  Manager playsRole manager;
+  Directory playsRole workDir {
+    multiplicity 0..1;
+  }
+}
+
+relation FileSystemContainsUsers {
+  FileSystem playsRole fileSystem;
+  User playsRole users {
+    multiplicity *;
+  }
+}
+
+relation FileSystemContainsRootUser {
+  FileSystem playsRole fileSystem;
+  RootUser playsRole rootUser {
+    multiplicity 0..1;
+  }
+}
+
+relation FileSystemContainsRootDir {
+  FileSystem playsRole fileSystem;
+  Directory playsRole rootDir {
+    multiplicity 0..1;
+  }
+}
+
+relation UserContainsMainDir {
+  User playsRole user;
+  Directory playsRole mainDir {
+    multiplicity 0..1;
+  }
+}
+
+relation FileContainsOwner {
+  File playsRole file;
+  User playsRole owner {
+    multiplicity 0..1;
+  }
+}
+
+relation FileContainsMainDir {
+  File playsRole file;
+  Directory playsRole parentDir {
+    multiplicity 0..1;
+  }
+}
+
+relation DirectoryContainsDirs {
+  Directory playsRole directory;
+  Directory playsRole dirs {
+    multiplicity *;
+  }
+}

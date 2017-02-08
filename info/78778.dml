@@ -1,0 +1,83 @@
+package es_proj_2016;
+
+class Manager {
+    Integer id;
+}
+
+relation DomainRootHasFileSystem {
+    .pt.ist.fenixframework.DomainRoot playsRole root {
+        multiplicity 0..1;
+    }
+    Manager playsRole manager {
+        multiplicity 0..1;
+    }
+}
+
+class FileSystem;
+
+relation ManagerContainsFileSystems {
+    Manager playsRole manager;
+    FileSystem playsRole fileSystem {
+        multiplicity *;
+    }
+}
+
+class User {
+    String username;
+    String password;
+    String umask;
+    String name;
+}
+
+relation FileSystemContainsUsers {
+    FileSystem playsRole fileSystem;
+    User playsRole user {
+        multiplicity 1..*;
+    }
+}
+
+class File {
+    Integer id;
+    String name;
+    User owner;
+    String permissions;
+    DateTime lastmodified;
+}
+
+class PlainFile extends File {
+    String content;
+}
+
+class Directory extends File {
+    Directory fatherDir;
+}
+
+relation FileSystemContainsDirectories {
+    FileSystem playsRole fileSystem;
+    Directory playsRole directory {
+        multiplicity 1..*;
+    }
+}
+
+relation UserHasDirectory {
+    User playsRole user;
+    Directory playsRole homeDirectory{
+        multiplicity 1..*;
+    }
+}
+
+relation DirectoryContainsFiles {
+    Directory playsRole directory;
+    File playsRole file {
+        multiplicity *;
+    }
+}
+
+class Link extends File {
+    String path;
+}
+
+class App extends File {
+    String content;
+}
+

@@ -1,0 +1,31 @@
+    //====================================================================================================
+    // Services
+    //====================================================================================================
+
+    // Rodrigo:FIXME: List Directory Service. Speak with Catarino.
+    // public void listDirectory(String path) throws EntryUnknownException, IsNotDirectoryException {
+    //     Directory dir = getDirectoryByPath(path);
+    //     if ( !( dir instanceof Directory) )
+    //         throw new IsNotDirectoryException(dir.getName());
+    //     dir.listEntries();
+    // }
+    // Rodrigo:FIXME: Remove file service. Speak with Rodrigo.
+    // public void removeFile(String path) throws IllegalRemovalException, EntryUnknownException {
+    //     Directory parentDir = getParentDirectoryByPath(path);
+    //     String[] paths = path.split("/");
+    //     String filename = paths[paths.length-1];
+    //     if (filename.equals(".") || filename.equals(".."))
+    //         throw new IllegalRemovalException(filename);
+    //     parentDir.remove(filename);
+    // }
+    // Rodrigo:FIXME: Create File service. Speak with Luis.
+    // public void newDirectory(String name) throws EntryExistsException {
+    //     getFileSystem().createDirectory(getWorkDir(), name, getLoggedUser());
+    // }
+    // Rodrigo:FIXME: Change Current Working Directory service. Speak with Bernardo.
+    // public void changeWorkDirectory(String dirName)
+    //     throws EntryUnknownException, IsNotDirectoryException {
+    //     String absotulePath = fixPath(getWorkDir().getPath() + dirName);
+    //     setWorkDir(getDirectoryByPath(absotulePath));
+    // }
+

@@ -1,0 +1,51 @@
+package es_proj_2016;
+
+class User {
+  String username;
+  String password;
+  String umask;
+  String name;
+}
+
+class File {
+  String name;
+  Integer identifier;
+  String permissions;
+  String owner;
+  DateTime lastmodified;
+}
+
+class PlainFile extends File {
+  String content;
+}
+
+class Directory extends File {
+  String path;
+  Integer dimension;
+}
+
+class Link extends PlainFile {}
+
+class App extends PlainFile {}
+
+relation UserManagesFiles {
+  User playsRole user;
+  File playsRole file {
+    multiplicity *;
+  }
+}
+
+relation DirectoryAggregatesFiles {
+  Directory playsRole directory;
+  File playsRole file {
+  	multiplicity *;
+  }
+}
+  
+relation UserHasDirectory {
+  User playsRole user;
+  Directory playsRole homeDirectory {
+  	multiplicity 1..1;
+  }
+}
+

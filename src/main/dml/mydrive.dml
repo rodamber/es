@@ -1,0 +1,152 @@
+package pt.tecnico.mydrive.domain;
+
+class FileSystem {
+    int maxFileId;
+}
+
+class Login;
+
+class Session {
+    long token;
+    DateTime expiryDate;
+}
+
+class User {
+    String name;
+    String username;
+    String password;
+    long sessionDuration; // In milisseconds.
+}
+
+class RootUser extends User;
+
+class GuestUser extends User;
+
+class File {
+    int id;
+    String name;
+    DateTime lastModified;
+}
+
+class PlainFile extends File {
+    String content;
+}
+
+class Directory extends File;
+
+class RootDirectory extends Directory;
+
+class Link extends PlainFile;
+
+class App extends PlainFile;
+
+class Permissions {
+    boolean ownerReadPermission;
+    boolean ownerWritePermission;
+    boolean ownerExecutePermission;
+    boolean ownerDeletePermission;
+
+    boolean othersReadPermission;
+    boolean othersWritePermission;
+    boolean othersExecutePermission;
+    boolean othersDeletePermission;
+}
+
+class EnvVar {
+    String name;
+    String value;
+}
+
+class FileExtension {
+    String name;
+}
+
+relation FileExtensionHasApp {
+    FileExtension playsRole fileExtensionOfFile { multiplicity 0..*; }
+    App playsRole app { multiplicity 0..1; }
+}
+
+relation UserhasFileExtension {
+    User playsRole user { multiplicity 0..1; }
+    FileExtension playsRole fileExtension { multiplicity 0..*; }
+    
+}
+
+relation DomainRootHasFileSystem {
+    .pt.ist.fenixframework.DomainRoot playsRole root {
+        multiplicity 0..1;
+    }
+    FileSystem playsRole fileSystem {
+        multiplicity 0..1;
+    }
+}
+
+relation FileSystemHasLogin {
+    FileSystem playsRole fileSystem { multiplicity 0..1; }
+    Login playsRole login { multiplicity 0..1; }
+}
+
+relation LoginHasSessions {
+    Login playsRole login { multiplicity 0..1; }
+    Session playsRole session { multiplicity *; }
+}
+
+relation LoginHasEnvVars {
+    Login playsRole login   { multiplicity 0..1; }
+    EnvVar playsRole envVar { multiplicity *;    }
+}
+
+relation SessionHasCurrentWorkingDirectory {
+    Session playsRole session { multiplicity 0..1; }
+    Directory playsRole cwd { multiplicity 0..1; }
+}
+
+relation SessionHasLoggedUser {
+    Session playsRole session { multiplicity *; }
+    User playsRole user { multiplicity 0..1; }
+}
+
+relation FileSystemHasUsers {
+    FileSystem playsRole fileSystem { multiplicity 1..1; }
+    User playsRole user { multiplicity 0..*; }
+}
+
+relation FileSystemHasRootUser {
+  FileSystem playsRole rootUserFileSystem { multiplicity 0..1; }
+  RootUser playsRole rootUser { multiplicity 0..1; }
+}
+
+relation FileSystemHasGuestUser {
+  FileSystem playsRole guestUserFileSystem { multiplicity 0..1; }
+  GuestUser playsRole guestUser { multiplicity 0..1; }
+}
+
+relation FileSystemHasRootDirectory {
+    FileSystem playsRole rootDirFileSystem { multiplicity 1..1; }
+    RootDirectory playsRole rootDirectory { multiplicity 0..1; }
+}
+
+relation UserHasHomeDirectory {
+    User playsRole user { multiplicity 0..1; }
+    Directory playsRole homeDirectory { multiplicity 1..1; }
+}
+
+relation UserHasFiles {
+    User playsRole owner { multiplicity 1..1; }
+    File playsRole owned { multiplicity 0..*; }
+}
+
+relation UserHasPermissions {
+    User playsRole user { multiplicity 0..1; }
+    Permissions playsRole umask { multiplicity 0..1; }
+}
+
+relation FileHasPermissions {
+    File playsRole file { multiplicity 0..1; }
+    Permissions playsRole permissions { multiplicity 0..1; }
+}
+
+relation DirectoryHasFiles {
+  Directory playsRole parentDirectory { multiplicity 1..1; }
+  File playsRole file { multiplicity 0..*; }
+}
